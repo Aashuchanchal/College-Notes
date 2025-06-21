@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Notes - Student Learning Portal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8fafc;
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #6b46c1 0%, #4299e1 100%);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        
+        .auth-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .auth-btn:hover {
+            transform: scale(1.03);
+        }
+        
+        .subject-card {
+            transition: all 0.3s ease;
+        }
+        
+        .subject-card:hover {
+            transform: scale(1.02);
+        }
+        
+        .note-card:hover .download-btn {
+            opacity: 1;
+        }
+        
+        .download-btn {
+            transition: all 0.3s ease;
+            opacity: 0;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-book-open text-2xl mr-2"></i>
+                    <span class="font-semibold text-xl">College Notes</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="text-white hover:text-gray-200">Home</a>
+                    <a href="#features" class="text-white hover:text-gray-200">Features</a>
+                    <a href="#subjects" class="text-white hover:text-gray-200">Subjects</a>
+                    <a href="#projects" class="text-white hover:text-gray-200">Projects</a>
+                    <a href="#about" class="text-white hover:text-gray-200">About</a>
+                </div>
+                <div class="md:hidden">
+                    <button class="text-white focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="gradient-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-6xl font-bold mb-6">Your Ultimate College Learning Companion</h1>
+            <p class="text-xl md:text-2xl mb-10 max-w-3xl mx-auto">Access premium notes, projects, and resources for all major academic streams in one place.</p>
+            <div class="flex flex-col md:flex-row justify-center space-y-4 md:space-y-0 md:space-x-6">
+                <button class="bg-white text-purple-700 px-8 py-3 rounded-full font-semibold text-lg hover:bg-gray-100 transition duration-300">Get Started</button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold text-lg hover:bg-white hover:text-purple-700 transition duration-300">Learn More</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-semibold text-gray-800">Join College Notes</h3>
+                <button id="closeAuthModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+    <button onclick="window.location='http://localhost:5500/auth/github'" class="auth-btn w-full flex items-center justify-center bg-gray-800 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-github mr-3"></i> Continue with GitHub
+    </button>
+    <button onclick="window.location='http://localhost:5500/auth/google'" class="auth-btn w-full flex items-center justify-center bg-blue-600 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-google mr-3"></i> Continue with Google
+    </button>
+    <button onclick="window.location='http://localhost:5500/auth/microsoft'" class="auth-btn w-full flex items-center justify-center bg-blue-500 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-microsoft mr-3"></i> Continue with Microsoft
+    </button>
+    <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-gray-300"></div>
+        <span class="mx-4 text-gray-500">OR</span>
+        <div class="flex-grow border-t border-gray-300"></div>
+    </div>
+                    <div class="space-y-4">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <button class="w-full bg-purple-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-purple-700">Sign Up</button>
+                    </div>
+                </div>
+                <p class="text-center mt-4 text-gray-600">Already have an account? <a href="#" class="text-purple-600 font-medium">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <section id="features" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Why Choose College Notes?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300">
+                    <div class="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-book text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Comprehensive Notes</h3>
+                    <p class="text-gray-600">Access well-organized notes for all subjects across various academic streams, curated by top students and professors.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300">
+                    <div class="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-laptop-code text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Project Resources</h3>
+                    <p class="text-gray-600">Get sample codes, project ideas, and implementation guides to enhance your academic projects and portfolio.</p>
+                </div>
+                <div class="bg-gray-50 p-8 rounded-xl card-hover transition duration-300">
+                    <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-6">
+                        <i class="fas fa-cloud-download-alt text-green-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-3">Easy Downloads</h3>
+                    <p class="text-gray-600">Download notes and resources in multiple formats (PDF, DOC, PPT) for offline access anytime, anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects Section -->
+    <section id="subjects" class="py-16 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Explore Academic Streams</h2>
+            
+            <div class="flex flex-wrap justify-center mb-8">
+                <button class="tab-btn active px-6 py-2 rounded-full bg-purple-600 text-white mx-2 mb-2" data-tab="engineering">Engineering</button>
+                <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 mx-2 mb-2" data-tab="mba">MBA</button>
+                <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 mx-2 mb-2" data-tab="medical">Medical</button>
+                <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 mx-2 mb-2" data-tab="paramedical">Paramedical</button>
+                <button class="tab-btn px-6 py-2 rounded-full bg-gray-200 text-gray-800 mx-2 mb-2" data-tab="arts">Arts</button>
+            </div>
+            
+            <!-- Engineering Tab Content -->
+            <div id="engineering" class="tab-content active">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- CSE -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-laptop-code text-blue-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Computer Science</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Comprehensive notes for all semesters including programming, algorithms, databases, and more.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Programming</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">DSA</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Networks</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-blue-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- ECE -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-microchip text-purple-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Electronics</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Detailed notes on circuits, signals, microprocessors, and communication systems.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">Circuits</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">Signals</span>
+                                <span class="bg-purple-100 text-purple-800 text-xs px-3 py-1 rounded-full">VLSI</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-purple-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Mechanical -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-cogs text-red-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Mechanical</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Notes covering thermodynamics, fluid mechanics, machine design, and manufacturing.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full">Thermodynamics</span>
+                                <span class="bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full">CAD</span>
+                                <span class="bg-red-100 text-red-800 text-xs px-3 py-1 rounded-full">Dynamics</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-red-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- MBA Tab Content -->
+            <div id="mba" class="tab-content">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Finance -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-chart-line text-green-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Finance</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Comprehensive notes on financial management, investments, and corporate finance.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Accounting</span>
+                                <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Investments</span>
+                                <span class="bg-green-100 text-green-800 text-xs px-3 py-1 rounded-full">Risk</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-green-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Marketing -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-yellow-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-bullhorn text-yellow-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Marketing</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Detailed notes on consumer behavior, digital marketing, and brand management.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full">Digital</span>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full">Branding</span>
+                                <span class="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full">Research</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-yellow-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- HR -->
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden subject-card">
+                        <div class="p-6">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mr-4">
+                                    <i class="fas fa-users text-blue-600"></i>
+                                </div>
+                                <h3 class="text-xl font-semibold">Human Resources</h3>
+                            </div>
+                            <p class="text-gray-600 mb-4">Notes covering organizational behavior, talent management, and labor laws.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">OB</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Training</span>
+                                <span class="bg-blue-100 text-blue-800 text-xs px-3 py-1 rounded-full">Compensation</span>
+                            </div>
+                        </div>
+                        <div class="px-6 pb-4">
+                            <button class="text-blue-600 font-medium flex items-center">
+                                View Notes <i class="fas fa-arrow-right ml-2"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Notes Display Section -->
+            <div class="mt-12 bg-white rounded-xl shadow-md overflow-hidden p-6">
+                <h3 class="text-2xl font-semibold mb-6">Computer Science Notes</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Note 1 -->
+                    <div class="border rounded-lg p-4 hover:shadow-md transition duration-300">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="font-medium">Data Structures & Algorithms</h4>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Semester 3</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Complete notes on arrays, linked lists, trees, graphs, sorting and searching algorithms.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-500">Updated: 2 days ago</span>
+                            <button class="download-btn bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center">
+                                <i class="fas fa-download mr-1"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Note 2 -->
+                    <div class="border rounded-lg p-4 hover:shadow-md transition duration-300">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="font-medium">Database Management Systems</h4>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Semester 4</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Detailed notes on ER models, normalization, SQL queries, transactions and concurrency.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-500">Updated: 1 week ago</span>
+                            <button class="download-btn bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center">
+                                <i class="fas fa-download mr-1"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Note 3 -->
+                    <div class="border rounded-lg p-4 hover:shadow-md transition duration-300">
+                        <div class="flex justify-between items-start mb-3">
+                            <h4 class="font-medium">Operating Systems</h4>
+                            <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Semester 5</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">Comprehensive notes on processes, threads, memory management, file systems and security.</p>
+                        <div class="flex justify-between items-center">
+                            <span class="text-xs text-gray-500">Updated: 3 days ago</span>
+                            <button class="download-btn bg-purple-600 text-white px-3 py-1 rounded text-sm flex items-center">
+                                <i class="fas fa-download mr-1"></i> Download
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Project Resources</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <!-- Project Ideas -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold mb-6 flex items-center">
+                        <i class="fas fa-lightbulb text-yellow-500 mr-3"></i> Project Ideas
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-medium mb-2">E-Learning Platform</h4>
+                            <p class="text-sm text-gray-600 mb-3">Build a comprehensive e-learning platform with course management, quizzes, and progress tracking.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 text-xs px-2 py-1 rounded">Web Development</span>
+                                <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Education</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-medium mb-2">Hospital Management System</h4>
+                            <p class="text-sm text-gray-600 mb-3">Develop a system to manage patient records, appointments, and billing for hospitals.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-purple-100 text-purple-800 text-xs px-2 py-1 rounded">Database</span>
+                                <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Healthcare</span>
+                            </div>
+                        </div>
+                        <div class="bg-white p-4 rounded-lg shadow-sm">
+                            <h4 class="font-medium mb-2">Smart Agriculture IoT</h4>
+                            <p class="text-sm text-gray-600 mb-3">Create an IoT solution to monitor soil moisture, temperature and automate irrigation.</p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">IoT</span>
+                                <span class="bg-teal-100 text-teal-800 text-xs px-2 py-1 rounded">Agriculture</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sample Code -->
+                <div class="bg-gray-50 p-8 rounded-xl">
+                    <h3 class="text-2xl font-semibold mb-6 flex items-center">
+                        <i class="fas fa-code text-blue-500 mr-3"></i> Sample Code
+                    </h3>
+                    <div class="bg-gray-800 rounded-lg p-4 mb-4">
+                        <div class="flex justify-between items-center text-gray-400 text-sm mb-2">
+                            <span>JavaScript</span>
+                            <button class="text-gray-400 hover:text-white">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="text-green-400 text-sm overflow-x-auto"><code>// Authentication middleware
+function authenticate(req, res, next) {
+    const token = req.header('Authorization');
+    if (!token) return res.status(401).send('Access denied');
+    
+    try {
+        const verified = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = verified;
+        next();
+    } catch (err) {
+        res.status(400).send('Invalid token');
+    }
+}</code></pre>
+                    </div>
+                    <div class="bg-gray-800 rounded-lg p-4">
+                        <div class="flex justify-between items-center text-gray-400 text-sm mb-2">
+                            <span>Python</span>
+                            <button class="text-gray-400 hover:text-white">
+                                <i class="far fa-copy"></i>
+                            </button>
+                        </div>
+                        <pre class="text-green-400 text-sm overflow-x-auto"><code># Flask REST API endpoint
+@app.route('/api/notes', methods=['GET'])
+@jwt_required()
+def get_notes():
+    user_id = get_jwt_identity()
+    notes = Note.query.filter_by(user_id=user_id).all()
+    return jsonify([note.serialize() for note in notes])</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="gradient-bg text-white py-16">
+        <div class="container mx-auto px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Ready to Boost Your Academic Success?</h2>
+            <p class="text-xl mb-10 max-w-2xl mx-auto">Join thousands of students who are already benefiting from our comprehensive resources.</p>
+            <button class="bg-white text-purple-700 px-10 py-4 rounded-full font-semibold text-lg hover:bg-gray-100 transition duration-300 shadow-lg">Sign Up Now - It's Free!</button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="about" class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-book-open text-2xl mr-2"></i>
+                        <span class="font-semibold text-xl">College Notes</span>
+                    </div>
+                    <p class="text-gray-400">The ultimate learning platform for students across all academic disciplines.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="https://www.collegenotes.com" class="text-gray-400 hover:text-white">Home</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Subjects</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Projects</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Pricing</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white">Help Center</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Contact Us</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">Feedback</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white">FAQ</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Connect With Us</h4>
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-gray-700">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                    <p class="text-gray-400">Designed and developed by Aashikha International</p>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2023 College Notes. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md">
+            <div class="flex justify-between items-center p-4 border-b">
+                <h3 class="text-xl font-semibold text-gray-800">Join College Notes</h3>
+                <button id="closeAuthModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4">
+    <button onclick="window.location='http://localhost:5500/auth/github'" class="auth-btn w-full flex items-center justify-center bg-gray-800 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-github mr-3"></i> Continue with GitHub
+    </button>
+    <button onclick="window.location='http://localhost:5500/auth/google'" class="auth-btn w-full flex items-center justify-center bg-blue-600 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-google mr-3"></i> Continue with Google
+    </button>
+    <button onclick="window.location='http://localhost:5500/auth/microsoft'" class="auth-btn w-full flex items-center justify-center bg-blue-500 text-white px-4 py-3 rounded-lg">
+        <i class="fab fa-microsoft mr-3"></i> Continue with Microsoft
+    </button>
+    <div class="flex items-center my-4">
+        <div class="flex-grow border-t border-gray-300"></div>
+        <span class="mx-4 text-gray-500">OR</span>
+        <div class="flex-grow border-t border-gray-300"></div>
+    </div>
+                    <div class="space-y-4">
+                        <input type="email" placeholder="Email Address" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <input type="password" placeholder="Password" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500">
+                        <button class="w-full bg-purple-600 text-white px-4 py-3 rounded-lg font-semibold hover:bg-purple-700">Sign Up</button>
+                    </div>
+                </div>
+                <p class="text-center mt-4 text-gray-600">Already have an account? <a href="#" class="text-purple-600 font-medium">Log In</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Page Modal -->
+<div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-lg">
+        <div class="flex justify-between items-center p-4 border-b">
+            <h3 class="text-xl font-semibold text-gray-800">Your Profile</h3>
+            <button id="closeProfileModal" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <form id="profileForm" class="p-6 space-y-4">
+            <div>
+                <label class="block text-gray-700 mb-1">Full Name</label>
+                <input type="text" name="name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1">Email</label>
+                <input type="email" name="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" required />
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1">Phone</label>
+                <input type="tel" name="phone" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1">College</label>
+                <input type="text" name="college" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            </div>
+            <div>
+                <label class="block text-gray-700 mb-1">Course/Stream</label>
+                <input type="text" name="course" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            </div>
+            <div class="flex justify-end">
+                <button type="submit" class="bg-purple-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-purple-700">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+    <script>
+        // Tab functionality
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                // Remove active class from all buttons and tabs
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('bg-purple-600', 'text-white'));
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.add('bg-gray-200', 'text-gray-800'));
+                document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding tab
+                btn.classList.remove('bg-gray-200', 'text-gray-800');
+                btn.classList.add('bg-purple-600', 'text-white');
+                const tabId = btn.getAttribute('data-tab');
+                document.getElementById(tabId).classList.add('active');
+            });
+        });
+        
+        // Auth modal functionality
+        const authModal = document.getElementById('authModal');
+        const closeAuthModal = document.getElementById('closeAuthModal');
+        
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.includes('Get Started') || btn.textContent.includes('Sign Up Now')) {
+                btn.addEventListener('click', () => {
+                    authModal.classList.remove('hidden');
+                    authModal.classList.add('flex');
+                });
+            }
+        });
+        
+        closeAuthModal.addEventListener('click', () => {
+            authModal.classList.add('hidden');
+            authModal.classList.remove('flex');
+        });
+        
+        // Profile modal functionality
+        function showProfileModal(user) {
+    const profileModal = document.getElementById('profileModal');
+    profileModal.classList.remove('hidden');
+    profileModal.classList.add('flex');
+    // Pre-fill form if user data exists
+    if (user) {
+        document.querySelector('#profileForm [name="name"]').value = user.displayName || '';
+        document.querySelector('#profileForm [name="email"]').value = user.email || '';
+    }
+}
+// Close profile modal
+const closeProfileModal = document.getElementById('closeProfileModal');
+if (closeProfileModal) {
+    closeProfileModal.addEventListener('click', () => {
+        document.getElementById('profileModal').classList.add('hidden');
+        document.getElementById('profileModal').classList.remove('flex');
+    });
+}
+// Handle profile form submit
+const profileForm = document.getElementById('profileForm');
+if (profileForm) {
+    profileForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Save user details to localStorage (or send to backend if needed)
+        const formData = Object.fromEntries(new FormData(profileForm).entries());
+        localStorage.setItem('userProfile', JSON.stringify(formData));
+        alert('Profile saved!');
+        document.getElementById('profileModal').classList.add('hidden');
+        document.getElementById('profileModal').classList.remove('flex');
+        // Optionally update UI with user info
+    });
+}
+// Show profile modal after login/signup (token in URL)
+window.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('token')) {
+        // Optionally decode JWT to get user info
+        const token = params.get('token');
+        // For demo, just show modal
+        showProfileModal();
+        // Remove token from URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+    }
+});
+
+        // Smooth scrolling for navigation
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+    <!-- ...existing code... -->
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-8 right-8 bg-green-600 text-white px-6 py-3 rounded shadow-lg z-50 hidden">
+    <i class="fas fa-check-circle mr-2"></i> Download started!
+</div>
+
+<!-- Search Bar for Notes -->
+<script>
+    // Add search bar above notes section
+    window.addEventListener('DOMContentLoaded', () => {
+        // 1. Add search bar
+        const notesSection = document.querySelector('#subjects .mt-12');
+        if (notesSection) {
+            const searchDiv = document.createElement('div');
+            searchDiv.className = "mb-6 flex justify-end";
+            searchDiv.innerHTML = `
+                <input id="noteSearch" type="text" placeholder="Search notes..." class="border px-4 py-2 rounded-lg w-full md:w-1/3 focus:outline-none focus:ring-2 focus:ring-purple-500" />
+            `;
+            notesSection.parentNode.insertBefore(searchDiv, notesSection);
+        }
+
+        // 2. Filter notes on input
+        const searchInput = document.getElementById('noteSearch');
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase();
+                document.querySelectorAll('#subjects .mt-12 .grid > div').forEach(card => {
+                    const title = card.querySelector('h4')?.textContent.toLowerCase() || '';
+                    card.style.display = title.includes(query) ? '' : 'none';
+                });
+            });
+        }
+    });
+</script>
+<form id="uploadForm" enctype="multipart/form-data">
+  <input type="file" name="file" />
+  <button type="submit">Upload</button>
+</form>
+<script>
+document.getElementById('uploadForm').onsubmit = async function(e) {
+  e.preventDefault();
+  const formData = new FormData(this);
+  const res = await fetch('http://localhost:5500/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const data = await res.json();
+  alert('File uploaded! Download URL: ' + data.url);
+};
+</script>
+</body>
+</html>
